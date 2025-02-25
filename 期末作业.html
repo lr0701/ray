@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" width="device-width, initial-scale=1.0">
+  <title>美食选购</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* 类别目录样式 */
+ .category-list {
+      width: calc(25% * 2 / 3);
+      min-width: 200px;
+      background-color: palevioletred;
+      color: white;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      height: calc(100vh - 40px - 200px); /* 为购物车腾出空间 */
+      overflow-y: auto;
+    }
+
+ .category-list h2 {
+      margin-top: 0;
+  }
+
+ .category-list ul {
+      list-style-type: none;
+      padding: 0;
+  }
+
+ .category-list li {
+      cursor: pointer;
+      padding: 15px 20px;
+      border-radius: 10px;
+      transition: background-color 0.3s ease;
+      margin-bottom: 10px;
+  }
+
+ .category-list li:hover {
+      background-color: #444;
+  }
+
+    /* 商品容器样式 */
+ .product-container {
+      flex: 1;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 20px;
+  }
+
+    /* 商品样式 */
+ .product {
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin: 20px;
+      width: 400px;
+      background-color: white;
+      transition: transform 0.3s ease-in-out, background-color 0.3s ease;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+  }
+
+ .product:hover {
+      transform: translateY(-5px);
+      background-color: #f0f0f0;
+  }
+
+    /* 商品详情样式 */
+ .product-details {
+      display: none;
+      width: 30%;
+      min-width: 250px;
+      background-color: #fefefe;
+      border: 1px solid #888;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      padding: 20px;
+      margin-left: 20px;
+      max-height: 70vh;
+      overflow-y: auto;
+  }
+
+ .product-details h2 {
+      margin-top: 0;
+  }
+
+ .product-details p {
+      margin: 5px 0;
+  }
+
+ .price {
+      font-weight: bold;
+      color: #e74c3c;
+  }
+
+ .quantity-input {
+      width: 50px;
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+  }
+
+ .add-to-cart-btn {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+  }
+
+ .add-to-cart-btn:hover {
+      background-color: #2980b9;
+  }
+
+    /* 购物车样式 */
+ .cart-summary {
+      padding: 20px;
+      background-color: #f5f5f5;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 300px;
+      margin: 0 auto;
+  }
+
+ .cart-summary h3 {
+      color: #333;
+      margin-top: 0;
+  }
+
+ .cart-summary ul {
+      list-style-type: none;
+      padding: 0;
+  }
+
+ .cart-summary li {
+      margin-bottom: 10px;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 10px;
+  }
+
+ .cart-summary.product-name {
+      font-weight: bold;
+  }
+
+ .cart-summary.product-quantity {
+      color: #666;
+  }
+
+ .cart-summary.product-total {
+      color: #e74c3c;
+  }
+  </style>
+</head>
+
+<body>
+  <div class="category-list">
+    <h2>商品类别</h2>
+    <ul>
+      <li data-category="drink" class="category-link active">饮品类</li>
+      <li data-category="dessert">甜品类</li>
+      <li data-category="snack">小吃类</li>
+    </ul>
+  </div>
+  <div class="product-container">
+    <div id="drink" class="product-category" style="display: block;">
+      <div class="product">
+        <img src="https://source.unsplash.com/random/300x200?drink=juice" alt="果汁">
+        <h3>鲜榨果汁</h3>
+        <p>新鲜水果现榨，富含维生素。</p>
+        <p class="price">$5.99</p>
+        <input type="number" class="quantity-input" value="1">
+        <button class="add-to-cart-btn">加入购物车</button>
+      </div>
+      <div class="product">
+        <img src="https://source.unsplash.com/random/300x200?drink=coffee" alt="咖啡">
+        <h3>香浓咖啡</h3>
+        <p>精选咖啡豆，香气浓郁。</p>
+        <p class="price">$4.99</p>
+        <input type="number" class="quantity-input" value="1">
+        <button class="add-to-cart-btn">加入购物车</button>
+      </div>
+    </div>
+    <div id="dessert" class="product-category" style="display: none;">
+      <div class="product">
+        <img src="https://source.unsplash.com/random/300x200?food=cake" alt="美味蛋糕">
+        <h3>美味蛋糕</h3>
+        <p>口感细腻，甜度适中，每一口都像是在味蕾上跳舞。</p>
+        <p class="price">$15.99</p>
+        <input type="number" class="quantity-input" value="1">
+        <button class="add-to-cart-btn">加入购物车</button>
+      </div>
+      <div class="product">
+        <img src="https://source.unsplash.com/random/300x200?food=ice-cream" alt="冰淇淋">
+        <h3>巧克力冰淇淋</h3>
+        <p>丝滑的巧克力口味，清凉解暑。</p>
+        <p class="price">$6.99</p>
+        <input type="number" class="quantity-input" value="1">
+        <button class="add-to-cart-btn">加入购物车</button>
+      </div>
+    </div>
+    <div id="snack" class="product-category" style="display: none;">
+      <div class="product">
+        <img src="https://source.unsplash.com/random/300x200?food=pizza" alt="美味披萨">
+        <h3>美味披萨</h3>
+        <p>多种口味可选，配料丰富，满满的芝士与美味的馅料。</p>
+        <p class="price">$12.99</p>
+        <input type="number" class="quantity-input" value="1">
+        <button class="add-to-cart-btn">加入购物车</button>
+      </div>
+      <div class="product">
+        <img src="https://source.unsplash.com/random/300x200?food=popcorn" alt="爆米花">
+        <h3>奶油爆米花</h3>
+        <p>香甜可口，是看电影的绝佳零食。</p>
+        <p class="price">$3.99</p>
+        <input type="number" class="quantity-input" value="1">
+        <button class="add-to-cart-btn">加入购物车</button>
+      </div>
+    </div>
+  </div>
+  <div class="product-details">
+    <h2 id="product-name"></h2>
+    <p id="product-slogan"></p>
+    <p id="product-ingredients"></p>
+    <p id="product-price"></p>
+    <p id="product-size"></p>
+  </div>
+  <div class="cart-summary">
+    <h3>购物车</h3>
+    <ul id="cart-items">
+    </ul>
+    <p>总金额：<span id="total-amount">$0</span></p>
+  </div>
+
+  <script>
+    const categoryLinks = document.querySelectorAll('.category-list li');
+    const productCategories = document.querySelectorAll('.product-category');
+    const products = document.querySelectorAll('.product');
+    const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+    const cartItemsList = document.getElementById('cart-items');
+    const totalAmountSpan = document.getElementById('total-amount');
+
+    categoryLinks.forEach(categoryLink => {
+      categoryLink.addEventListener('click', () => {
+        categoryLinks.forEach(link => link.classList.remove('active'));
+        categoryLink.classList.add('active');
+        productCategories.forEach(category => category.style.display = 'none');
+        const categoryId = categoryLink.dataset.category;
+        document.getElementById(categoryId).style.display = 'block';
+      });
+    });
+
+    products.forEach(product => {
+      product.addEventListener('click', () => {
+        const name = product.querySelector('h3').textContent;
+        const slogan = product.querySelector('p').textContent;
+        const price = product.querySelector('.price').textContent;
+        const ingredients = product.querySelector('p').textContent;
+        const sizeElement = product.querySelector('p');
+        let size = '';
+        if (sizeElement.textContent.includes('寸') || sizeElement.textContent.includes('杯') || sizeElement.textContent.includes('球')) {
+          size = sizeElement.textContent;
+        }
+        const productDetailsDiv = document.querySelector('.product-details');
+        const productName = productDetailsDiv.querySelector('#product-name');
+        const productSlogan = productDetailsDiv.querySelector('#product-slogan');
+        const productIngredients = productDetailsDiv.querySelector('#product-ingredients');
+        const productPrice = productDetailsDiv.querySelector('#product-price');
+        const productSize = productDetailsDiv.querySelector('#product-size');
+
+        productName.textContent = name;
+        productSlogan.textContent = slogan;
+        productIngredients.textContent = ingredients;
+        productPrice.textContent = price;
+        productSize.textContent = size;
+        productDetailsDiv.style.display = 'block';
+      });
+    });
+
+    addToCartButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const product = button.parentElement;
+        const name = product.querySelector('h3').textContent;
+        const quantity = parseInt(product.querySelector('.quantity-input').value);
+        const price = parseFloat(product.querySelector('.price').textContent.slice(1));
+        const itemTotal = price * quantity;
+
+        const cartItem = document.createElement('li');
+        cartItem.innerHTML = `<span class="product-name">${name}</span> - <span class="product-quantity">数量: ${quantity}</span> - <span class="product-total">金额: $${itemTotal.toFixed(2)}</span>`;
+        cartItemsList.appendChild(cartItem);
+
+        let totalAmount = parseFloat(totalAmountSpan.textContent.slice(1));
+        totalAmount += itemTotal;
+        totalAmountSpan.textContent = '$' + totalAmount.toFixed(2);
+      });
+    });
+  </script>
+</body>
+
+</html>
